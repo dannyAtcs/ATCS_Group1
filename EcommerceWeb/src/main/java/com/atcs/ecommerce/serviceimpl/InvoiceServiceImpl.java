@@ -4,7 +4,6 @@ package com.atcs.ecommerce.serviceimpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.atcs.ecommerce.entity.Address;
 import com.atcs.ecommerce.entity.Invoice;
 import com.atcs.ecommerce.entity.Order;
 import com.atcs.ecommerce.repo.OrderRepo;
@@ -24,7 +23,7 @@ public class InvoiceServiceImpl implements InvoiceService
 		
 		Order order = orderRepo.findById(orderid).get();
 		double totalPrice = order.getTotalPrice();
-		return new Invoice(order.getOrderItem(),totalPrice);
+		return new Invoice(order.getOrderItem(),totalPrice,order.getUser().getAddress());
 	}
 
 }
