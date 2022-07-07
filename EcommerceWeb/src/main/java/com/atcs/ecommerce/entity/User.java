@@ -11,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -48,12 +47,16 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade=CascadeType.ALL)
 	private List<Order> order;
 	
-	@OneToOne(cascade = CascadeType.ALL, mappedBy = "users", fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.MERGE, mappedBy = "users", fetch = FetchType.LAZY)
 	private Wallet wallet;
 	
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	private Cart cart;
+	
+	@OneToOne(cascade = CascadeType.MERGE, mappedBy = "userAdd", fetch = FetchType.LAZY)
+	private Address address;
+	
 
 	public int getId() {
 		return id;
@@ -135,8 +138,10 @@ public class User {
 		// TODO Auto-generated constructor stub
 	}
 
+	
+
 	public User(int id, String firstname, String lastname, String email, String password, Role role, List<Order> order,
-			Wallet wallet, Cart cart) {
+			Wallet wallet, Cart cart, Address address) {
 		super();
 		this.id = id;
 		this.firstname = firstname;
@@ -147,7 +152,17 @@ public class User {
 		this.order = order;
 		this.wallet = wallet;
 		this.cart = cart;
+		this.address = address;
 	}
+	
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
 	
 	
 }

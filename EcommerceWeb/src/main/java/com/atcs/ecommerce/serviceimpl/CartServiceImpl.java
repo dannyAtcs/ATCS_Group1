@@ -1,9 +1,10 @@
 package com.atcs.ecommerce.serviceimpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.atcs.ecommerce.entity.Cart;
@@ -64,16 +65,20 @@ public class CartServiceImpl implements CartService{
 		
 	}
 	@Override
-	public void addToCart(int id,int id1) {
+	public ResponseEntity<String> addToCart(int id,int id1) {
 		Product pro = productRepo.findById(id).get();
 		
 		OrderItem orderItem = new OrderItem(1, pro.getPrice(), pro);
 		
 		Cart cart = cartRepo.findById(id1).get();
 		
+		if(cart.getOrderItem().size()<5) {
 		cart.getOrderItem().add(orderItem);
-		
 		cartRepo.save(cart);
+		return ResponseEntity.status(HttpStatus.OK).build();
+		}
+		else 
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 	}
 
 	@Override

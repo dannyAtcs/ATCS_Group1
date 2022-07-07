@@ -3,6 +3,7 @@ package com.atcs.ecommerce.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,15 +22,15 @@ public class CartController {
 	CartService cartsvc;
 	
 	@PostMapping("/addtocart/{id1}/{id2}")
-	public void addToCart(@PathVariable("id1") int id1, @PathVariable("id2") int id2)
+	public ResponseEntity<String> addToCart(@PathVariable("id1") int proid, @PathVariable("id2") int cartid)
 	{
-		cartsvc.addToCart(id1, id2);
+		return cartsvc.addToCart(proid, cartid);
 	}
 	
 	@PostMapping("/remove/{id1}/{id2}")
-	public void removeToCart(@PathVariable("id1") int id1, @PathVariable("id2") int id2)
+	public void removeToCart(@PathVariable("id1") int proid, @PathVariable("id2") int cartid)
 	{
-		cartsvc.removeToCart(id1, id2);
+		cartsvc.removeToCart(proid, cartid);
 	}
 	
 	@GetMapping("/")
@@ -39,10 +40,6 @@ public class CartController {
 	@GetMapping("/{id}")
 	public Cart getDataById(@PathVariable("id") int id){
 		return cartsvc.getDataById(id);
-	}
-	@PostMapping("/")
-	public void postData(@RequestBody Cart cart) {
-		cartsvc.postData(cart);
 	}
 	@PutMapping("/")
 	public void putData(@RequestBody Cart cart) {
